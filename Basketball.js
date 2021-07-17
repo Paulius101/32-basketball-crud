@@ -17,23 +17,28 @@ class Basketball {
         this.team.push({
             name: name,
             hasToPay: 0,
-            players: []
+            players: [{
+                playerName: ''
+            }]
         })
         console.log(` A "${name}" just entered a game!`);
     }
 
     buyPlayer(teamID, playerID) {
-        if (playerID !== this.team[teamID - 1].players[playerID - 1] && this.team[teamID - 1].players.length <= 3) {
-            this.team[teamID - 1].players.push(playerID);
+        for (const player of this.team[teamID - 1].players) {
+            if (player.playerName !== this.playerList[playerID - 1].name && this.team[teamID - 1].players.length <= 3) {
+                this.team[teamID - 1].players.push(this.playerList[playerID - 1]);
+                this.team[teamID - 1].hasToPay += this.playerList[playerID - 1].price;
+                console.log(this.team[teamID - 1]);
+            }
+
+            if (this.playerList[playerID - 1].name === this.team[teamID - 1].players[playerID - 1]) { console.log(`"${this.team[teamID - 1].name}" team can't add the same player twice!`); }
+
+            if (this.team[teamID - 1].players.length === 3) {
+                console.log(`"${this.team[teamID - 1].name}" team can't add extra players to it's team.\nMaximum players per team is 3.`);
+            }
         }
 
-        if (playerID === this.team[teamID - 1].players[playerID - 1]) { console.log(`"${this.team[teamID - 1].name}" team can't add the same player twice!`); }
-
-        if (this.team[teamID - 1].players.length === 3) {
-            console.log(`"${this.team[teamID - 1].name}" team can't add extra players to it's team.\nMaximum players per team is 3.`);
-        }
-
-        this.team[teamID - 1].hasToPay += this.playerList[playerID - 1].price;
         console.log(`"${this.team[teamID - 1].name}" team just acquired new player ${this.playerList[playerID - 1].name} for ${this.playerList[playerID - 1].price} cash/year!`);
     }
 
